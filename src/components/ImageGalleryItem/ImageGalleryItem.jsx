@@ -1,7 +1,7 @@
 import css from './ImageGalleryItem.module.css';
 // import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({ picUrl, title }) => {
+export const ImageGalleryItem = ({ picUrl, title, objectID }) => {
   return (
     <li className={css['gallery-item']} key={objectID}>
       <img src={picUrl} alt={title} />
