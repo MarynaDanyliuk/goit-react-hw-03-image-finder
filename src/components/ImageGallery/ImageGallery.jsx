@@ -1,16 +1,16 @@
-import css from './ImageGallery.module.css';
 // import { nanoid } from 'nanoid';
 // import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 // import PropTypes from 'prop-types';
+import { Gallery } from '../ImageGallery/ImageGallery.styled';
 
 export const ImageGallery = ({ images }) => {
   //   const picId = nanoid();
   return (
-    <ul className={css['gallery-list']}>
+    <Gallery>
       {/* {images.map(image => (
         <ImageGalleryItem pic={picId} name={image.name} key={image.id} />
       ))} */}
-    </ul>
+    </Gallery>
   );
 };
 

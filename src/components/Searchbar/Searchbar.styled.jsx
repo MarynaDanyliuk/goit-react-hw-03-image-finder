@@ -42,12 +42,11 @@ export const SearchFormButton = styled.button`
   transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   outline: none;
+    &:hover {
+    opacity: 1;
+  }
   }
 `;
-
-//   &:hover {
-//     opacity: 1;
-//   }
 
 export const Label = styled.span`
   position: absolute;
@@ -71,10 +70,9 @@ export const Input = styled.input`
     outline: none;
     padding-left: 4px;
     padding-right: 4px;
+    &:hover {
+      font: inherit;
+      font-size: 18px;
+    }
   }
 `;
-
-// &:hover {
-//   font: inherit;
-//   font-size: 18px;
-// }
