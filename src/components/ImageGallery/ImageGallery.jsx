@@ -1,15 +1,23 @@
 // import { nanoid } from 'nanoid';
-// import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 // import PropTypes from 'prop-types';
 import { Gallery } from '../ImageGallery/ImageGallery.styled';
+
+// id: '',
+// webformatURL: '',
+// largeImageURL: '',
 
 export const ImageGallery = ({ images }) => {
   //   const picId = nanoid();
   return (
     <Gallery>
-      {/* {images.map(image => (
-        <ImageGalleryItem pic={picId} name={image.name} key={image.id} />
-      ))} */}
+      {images.map(image => (
+        <ImageGalleryItem
+          pic={image.largeImageURL}
+          preview={image.webformatURL}
+          key={image.id}
+        />
+      ))}
     </Gallery>
   );
 };

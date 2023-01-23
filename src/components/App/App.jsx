@@ -6,23 +6,38 @@ import { Searchbar } from '../Searchbar/Searchbar';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from 'components/Button/Button';
 
+const API_KEY = '31808257-b1d1bead71ab6681d9f118ecf';
+const BASE_URL = 'https://pixabay.com/api/';
+
 export class App extends React.Component {
   state = {
     images: [],
+    word: '',
   };
 
-  async componentDidMount() {
-    const response = await axios.get(
-      'https://pixabay.com/api/?q=cat&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12'
+  async componentDidMount(word) {
+    const images = await axios.get(
+      `` +
+        BASE_URL +
+        `?q=` +
+        word +
+        `&page=1&key=` +
+        API_KEY +
+        `&image_type=photo&orientation=horizontal&per_page=12`
     );
-    this.setState({ images: response.data.hits });
+    this.setState({ images: images.data.hits });
   }
+
+  // _______Answer API__________
+  // id - унікальний ідентифікатор
+  // webformatURL - посилання на маленьке зображення для списку карток
+  // largeImageURL - посилання на велике зображення для модального вікна
 
   render() {
     return (
       <Container>
         <Searchbar />
-        <ImageGallery />
+        <ImageGallery images={this.state.images} />
         <Button />
       </Container>
     );
