@@ -1,8 +1,8 @@
 // import PropTypes from 'prop-types';
 import { ButtonLoadMore } from '../Button/Button.styled';
 
-export const Button = () => {
-  return <ButtonLoadMore>Load more</ButtonLoadMore>;
+export const Button = ({ handelClick }) => {
+  return <ButtonLoadMore onClick={handelClick}>Load more</ButtonLoadMore>;
 };
 
 // ImageGalleryItem.propTypes = {
