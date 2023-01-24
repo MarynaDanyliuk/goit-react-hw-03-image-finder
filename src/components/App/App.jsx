@@ -6,6 +6,8 @@ import { Searchbar } from '../Searchbar/Searchbar';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from 'components/Button/Button';
 
+import { apiServise } from 'apiServise/api';
+
 // import { GetImagesApiService } from 'apiServise/api';
 // const getImagesApiService = new GetImagesApiService();
 
@@ -33,16 +35,18 @@ export class App extends React.Component {
     //   console.log(`Error`);
     // }
     // _________________2 variant__________________
-    fetch(
-      `https://pixabay.com/api/?q=${query}&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12`
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ images: data.hits });
-      });
+    // fetch(
+    //   `https://pixabay.com/api/?q=${query}&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12`
+    // )
+    //   .then(response => response.json())
+    //   .then(data => {
+    //     this.setState({ images: data.hits });
+    //   });
+    // ___________________3 var________________________
+    apiServise(query).then(data => {
+      this.setState({ images: data.hits });
+    });
   };
-
-  //  this.setState({ images: imagesList });
 
   componentDidMount() {
     // const response = await axios.get(
@@ -58,8 +62,6 @@ export class App extends React.Component {
 
   render() {
     const { images } = this.state;
-    // const query = this.state.query;
-    // const images = this.state.images;
     return (
       <Container>
         <Searchbar onSubmit={this.onHandleSubmit} />
