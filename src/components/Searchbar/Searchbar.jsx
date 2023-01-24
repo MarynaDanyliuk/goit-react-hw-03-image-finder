@@ -1,3 +1,5 @@
+import React from 'react';
+
 // import css from './Searchbar.module.css';
 // import PropTypes from 'prop-types';
 import {
@@ -8,24 +10,78 @@ import {
   Input,
 } from '../Searchbar/Searchbar.styled';
 
-export const Searchbar = ({ onSubmit }) => {
-  return (
-    <Header>
-      <SearchForm>
-        <SearchFormButton type="submit" onSubmit={onSubmit}>
-          <Label>Search</Label>
-        </SearchFormButton>
+export class Searchbar extends React.Component {
+  state = {
+    // images: [],
+    query: '',
+  };
 
-        <Input
-          type="text"
-          autocomplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-      </SearchForm>
-    </Header>
-  );
-};
+  handleChange = event => {
+    const { name, value } = event.currentTarget;
+    this.setState({
+      [name]: value,
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    console.log(this.state);
+    this.props.onSubmit(this.state.query);
+
+    this.reset();
+  };
+
+  reset = () => {
+    this.setState({ query: '', images: [] });
+  };
+
+  // const { name, value } = event.target;
+  // this.setState({ [name]: value });
+
+  render() {
+    return (
+      <Header>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
+            <Label>Search</Label>
+          </SearchFormButton>
+
+          <Input
+            type="text"
+            autocomplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            name="query"
+            value={this.state.query}
+            onChange={this.handleChange}
+          />
+        </SearchForm>
+      </Header>
+    );
+  }
+}
+
+// export const Searchbar = ({ onSubmit }) => {
+//   return (
+//     <Header>
+//       <SearchForm>
+//         <SearchFormButton type="submit">
+//           <Label>Search</Label>
+//         </SearchFormButton>
+
+//         <Input
+//           type="text"
+//           autocomplete="off"
+//           autoFocus
+//           placeholder="Search images and photos"
+//           name="query"
+//           // value={query}
+//           onChange={onSubmit}
+//         />
+//       </SearchForm>
+//     </Header>
+//   );
+// };
 
 // ImageGallery.propTypes = {
 //   friends: PropTypes.arrayOf(
@@ -37,3 +93,5 @@ export const Searchbar = ({ onSubmit }) => {
 //     })
 //   ),
 // };
+
+// onSubmit = { onSubmit };
