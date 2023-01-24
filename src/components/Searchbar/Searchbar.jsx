@@ -2,6 +2,7 @@ import React from 'react';
 
 // import css from './Searchbar.module.css';
 // import PropTypes from 'prop-types';
+
 import {
   Header,
   SearchForm,
@@ -24,18 +25,14 @@ export class Searchbar extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    // console.log(this.state);
-    this.props.onSubmit(this.state);
 
+    this.props.onSubmit(this.state);
     this.reset();
   };
 
   reset = () => {
     this.setState({ query: '' });
   };
-
-  // const { name, value } = event.target;
-  // this.setState({ [name]: value });
 
   render() {
     return (

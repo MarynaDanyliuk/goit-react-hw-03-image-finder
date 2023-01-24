@@ -2,16 +2,17 @@
 // import React from 'react';
 
 function apiServise(query) {
-  fetch(
-    `https://pixabay.com/api/?q=${query}&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12`
-  )
-    .then(response => response.json())
-    .then(data => {
-      this.setState({ images: data.hits });
-    });
+  const API_KEY = '31808257-b1d1bead71ab6681d9f118ecf';
+  const BASE_URL = 'https://pixabay.com/api/';
+
+  return fetch(
+    `${BASE_URL}?q=${query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+  ).then(response => response.json());
 }
 
 export default apiServise;
+
+// ____________1 var_________________-
 
 //   async componentDidMount(query) {
 //     const response = await axios.get(

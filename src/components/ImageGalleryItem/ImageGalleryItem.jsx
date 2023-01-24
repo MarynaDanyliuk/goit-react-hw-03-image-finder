@@ -1,13 +1,18 @@
-import css from './ImageGalleryItem.module.css';
+// import css from './ImageGalleryItem.module.css';
 // import PropTypes from 'prop-types';
 
-export const ImageGalleryItem = ({ pic, preview, id }) => {
+import {
+  GalleryItem,
+  GalleryImage,
+} from '../ImageGalleryItem/ImageGalleryItem.styled';
+
+export const ImageGalleryItem = ({ largeUrl, previewUrl, id }) => {
   return (
-    <li className={css['gallery-item']} key={id}>
-      <a href={pic}>
-        <img src={preview} alt="pcture" />
+    <GalleryItem key={id}>
+      <a href={largeUrl}>
+        <GalleryImage src={previewUrl} alt="pcture" />
       </a>
-    </li>
+    </GalleryItem>
   );
 };
 
