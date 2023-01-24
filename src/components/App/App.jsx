@@ -6,8 +6,8 @@ import { Searchbar } from '../Searchbar/Searchbar';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from 'components/Button/Button';
 
-import { GetImagesApiService } from 'apiServise/api';
-const getImagesApiService = new GetImagesApiService();
+// import { GetImagesApiService } from 'apiServise/api';
+// const getImagesApiService = new GetImagesApiService();
 
 export class App extends React.Component {
   state = {
@@ -15,41 +15,36 @@ export class App extends React.Component {
     query: '',
   };
 
-  async onHandleSubmit(query) {
-    console.log(query);
-    if (query === ``) {
-      return;
-    }
-    try {
-      const imagesList = await getImagesApiService.fetchImages(query);
-      console.log(imagesList);
-      this.setState({ images: imagesList });
-      // console.log(this.state);
+  onHandleSubmit = ({ images, query }) => {
+    this.setState({ query: query });
+    // if (query === ``) {
+    //   return;
+    // }
+    // try {
+    //   const imagesList = await getImagesApiService.fetchImages(query);
+    //   console.log(imagesList);
+    //   // this.setState({ images: imagesList, query: query });
+    //   // console.log(this.state.images);
+    //   console.log(
+    //     `После запроса, если все ок - наш объект`,
+    //     getImagesApiService
+    //   );
+    // } catch (error) {
+    //   console.log(`Error`);
+    // }
+    // _________________2 variant__________________
+    fetch(
+      `https://pixabay.com/api/?q=${query}&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12`
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ images: data.hits });
+      });
+  };
 
-      console.log(
-        `После запроса, если все ок - наш объект`,
-        getImagesApiService
-      );
-    } catch (error) {
-      console.log(`Error`);
-    }
+  //  this.setState({ images: imagesList });
 
-    // this.setState({ images: response.data.hits });
-    // getImagesApiService.query = ``;
-
-    // const response = axios
-    //   .get(
-    //     `https://pixabay.com/api/?q=${query}&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12`
-    //   )
-    //   .then();
-
-    // const word = query;
-    // console.log(word);
-    // this.setState({ query: word });
-    // console.log(response);
-  }
-
-  async componentDidMount() {
+  componentDidMount() {
     // const response = await axios.get(
     //   `https://pixabay.com/api/?q=${query}&page=1&key=31808257-b1d1bead71ab6681d9f118ecf&image_type=photo&orientation=horizontal&per_page=12`
     // );
@@ -62,11 +57,15 @@ export class App extends React.Component {
   // largeImageURL - посилання на велике зображення для модального вікна
 
   render() {
+    const { images, query } = this.state;
     // const query = this.state.query;
+    // const images = this.state.images;
     return (
       <Container>
         <Searchbar onSubmit={this.onHandleSubmit} />
-        <ImageGallery images={this.state.images} />
+        {this.state.images && (
+          <ImageGallery images={images}>Cats will be there</ImageGallery>
+        )}
         <Button />
       </Container>
     );

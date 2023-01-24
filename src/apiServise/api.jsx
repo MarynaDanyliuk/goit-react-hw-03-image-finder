@@ -13,7 +13,6 @@ export class GetImagesApiService extends React.Component {
     query: ``,
     page: 1,
     per_page: 12,
-    //   totalHits: 500,
   };
 
   async fetchImages(query) {
@@ -41,9 +40,9 @@ export class GetImagesApiService extends React.Component {
     this.page += 1;
   }
 
-  //   resetPage() {
-  //     this.page = 1;
-  //   }
+  resetPage() {
+    this.page = 1;
+  }
 
   getQuery() {
     return this.state.query;

@@ -12,7 +12,6 @@ import {
 
 export class Searchbar extends React.Component {
   state = {
-    // images: [],
     query: '',
   };
 
@@ -25,14 +24,14 @@ export class Searchbar extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
-    this.props.onSubmit(this.state.query);
+    // console.log(this.state);
+    this.props.onSubmit(this.state);
 
     this.reset();
   };
 
   reset = () => {
-    this.setState({ query: '', images: [] });
+    this.setState({ query: '' });
   };
 
   // const { name, value } = event.target;
