@@ -57,13 +57,13 @@ export class App extends React.Component {
   // largeImageURL - посилання на велике зображення для модального вікна
 
   render() {
-    const { images, query } = this.state;
+    const { images } = this.state;
     // const query = this.state.query;
     // const images = this.state.images;
     return (
       <Container>
         <Searchbar onSubmit={this.onHandleSubmit} />
-        {this.state.images && (
+        {images && (
           <ImageGallery images={images}>Cats will be there</ImageGallery>
         )}
         <Button />
