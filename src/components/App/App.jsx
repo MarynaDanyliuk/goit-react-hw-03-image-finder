@@ -1,10 +1,10 @@
 import React from 'react';
-// import axios from 'axios';
 
 import { Container } from '../App/App.styled';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from 'components/Button/Button';
+import { LoaderWatch } from '../Loader/Loader';
 
 // import apiServise from 'apiServise/api';
 
@@ -18,10 +18,16 @@ export class App extends React.Component {
     loading: false,
   };
 
-  onHandleSubmit = ({ images, query }) => {
+  onHandleSubmit = ({ query }) => {
     this.setState({ query: query, loading: true });
 
-    getImagesApiService.query = this.state.query;
+    getImagesApiService.query = this.state.query.trim();
+
+    getImagesApiService.resetPage();
+
+    // if (getImagesApiService.query === '') {
+    //   return;
+    // }
 
     getImagesApiService
       .fetchImages(query)
@@ -37,14 +43,9 @@ export class App extends React.Component {
 
   onHandelClick = () => {
     console.log('кликнули на Load more');
-    // ______________2 var________________
-    // apiServise(this.state.query)
-    //   .then(data => {
-    //     this.setState({ images: data.hits });
-    //   })
-    //   .finally(() => {
-    //     this.setState({ loading: false });
-    //   });
+
+    getImagesApiService.incrementPage();
+    console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
   };
 
   componentDidMount() {}
@@ -54,7 +55,7 @@ export class App extends React.Component {
     return (
       <Container>
         <Searchbar onSubmit={this.onHandleSubmit} />
-        {loading && <h1>Завантажую...</h1>}
+        {loading && <LoaderWatch />}
         {images && <ImageGallery images={images} />}
         {images.length > 0 && <Button handelClick={this.onHandelClick} />}
       </Container>

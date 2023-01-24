@@ -1,5 +1,5 @@
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
-// import { Button } from '../Button/Button';
+
 // import PropTypes from 'prop-types';
 import { Gallery } from '../ImageGallery/ImageGallery.styled';
 
