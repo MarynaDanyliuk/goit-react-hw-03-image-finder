@@ -34,6 +34,10 @@ export class Searchbar extends React.Component {
     this.setState({ query: '' });
   };
 
+  handleToggle = event => {
+    this.props.onClick(this.state);
+  };
+
   render() {
     return (
       <Header>
@@ -51,6 +55,9 @@ export class Searchbar extends React.Component {
             value={this.state.query}
             onChange={this.handleChange}
           />
+          <button type="button" onClick={this.handleToggle}>
+            Open Modal
+          </button>
         </SearchForm>
       </Header>
     );

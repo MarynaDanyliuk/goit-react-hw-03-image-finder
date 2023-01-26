@@ -6,7 +6,7 @@ import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from '../Button/Button';
 import { LoaderWatch } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
-import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+// import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 
 // import apiServise from 'apiServise/api';
 
@@ -20,6 +20,29 @@ export class App extends React.Component {
     loading: false,
     showModal: false,
   };
+
+  componentDidMount() {
+    window.addEventListener('click', event => {
+      console.log(event.currentTarget);
+    });
+    // window.addEventListener('keydown', event => {
+    //   console.log(event.currentTarget);
+    //   if (event.code === 'Escape') {
+    //     console.log(' нажали ESC, нужно закрыть модалку', event.currentTarget);
+    //     this.onToggleModal();
+    //   }
+    // });
+  }
+
+  componentWillUnmount() {
+    window.addEventListener('keydown', event => {
+      console.log(event.currentTarget);
+      if (event.code === 'Escape') {
+        console.log(' нажали ESC, нужно закрыть модалку', event.currentTarget);
+        this.onToggleModal();
+      }
+    });
+  }
 
   onHandleSubmit = ({ query }) => {
     this.setState({ query: query, loading: true });
@@ -57,36 +80,60 @@ export class App extends React.Component {
     console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
   };
 
-  onToggleModal = () => {
-    console.log('кликнули на фото для открытия модального окна');
+  onToggleModal = (event, id) => {
+    console.log('кликнули Toggle модального окна');
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
   };
 
-  componentDidMount() {}
-
   render() {
     const { images, loading, showModal } = this.state;
-    // const { largeUrl } = this.state.images;
+
     return (
       <Container>
-        <Searchbar onSubmit={this.onHandleSubmit} />
+        <Searchbar
+          onSubmit={this.onHandleSubmit}
+          onClick={this.onToggleModal}
+        />
         {loading && <LoaderWatch />}
-        {images && <ImageGallery images={images} />}
+        {images && (
+          <ImageGallery images={images} handleToggle={this.onToggleModal} />
+        )}
         {images.length > 0 && <Button handelClick={this.onHandelClick} />}
         {showModal && (
-          <Modal>
-            <ImageGalleryItem
-              images={images}
-              toggleModal={this.onToggleModal}
-            />
+          <Modal handleToggle={this.onToggleModal}>
+            <h1>Hello I'm MODALKA</h1>
+            {/* <ImageGalleryItem
+            // largeUrl={largeImageURL}
+            // previewUrl={webformatURL}
+            // key={id}
+            // onClick={handleToggle}
+            /> */}
+            <ImageGallery images={images} handleToggle={this.onToggleModal}>
+              {this.props.children}
+            </ImageGallery>
           </Modal>
         )}
       </Container>
     );
   }
 }
+
+/* <ImageGalleryItem images={images[0]} handleToggle={this.onToggleModal} />; */
+
+// src = 'https://pixabay.com/get/g7047c46c9274fd9f2d05bccc6…195b6f29d0b341c5875f4fa37c9ea1b6a8a9ea1c5_640.jpg'
+// _____________________________________________________
+// backdrop onClose
+//  if (event) {
+//    console.log(
+//      ' нажали backdrop, нужно закрыть модалку',
+//      event.currentTarget
+//    );
+
+//    this.props.handleToggle(event);
+//  }
+// _____________________________________
 
 //  onClick={this.onToggleModal}
 

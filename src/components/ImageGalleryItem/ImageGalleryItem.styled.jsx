@@ -9,6 +9,7 @@ export const GalleryItem = styled.li`
 export const GalleryImage = styled.img`
   width: 100%;
   height: 100%;
+
   object-fit: cover;
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &: hover {
@@ -17,4 +18,5 @@ export const GalleryImage = styled.img`
   }
 `;
 // __________________________
-// height: 260px;
+//
+//  height: 260px;

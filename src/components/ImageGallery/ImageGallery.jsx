@@ -3,7 +3,7 @@ import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 // import PropTypes from 'prop-types';
 import { Gallery } from '../ImageGallery/ImageGallery.styled';
 
-export const ImageGallery = ({ images }) => {
+export const ImageGallery = ({ images, handleToggle }) => {
   return (
     <Gallery>
       {images.map(image => (
@@ -11,6 +11,7 @@ export const ImageGallery = ({ images }) => {
           largeUrl={image.largeImageURL}
           previewUrl={image.webformatURL}
           key={image.id}
+          onClick={() => handleToggle(image.id)}
         />
       ))}
     </Gallery>

@@ -6,11 +6,17 @@ import {
   GalleryImage,
 } from '../ImageGalleryItem/ImageGalleryItem.styled';
 
-export const ImageGalleryItem = ({ largeUrl, previewUrl, id, toggleModal }) => {
+export const ImageGalleryItem = ({
+  largeUrl,
+  previewUrl,
+  id,
+  handleToggle,
+}) => {
+  //  const { largeUrl, previewUrl, id } = images;
   return (
     <GalleryItem key={id}>
       <a href={largeUrl}>
-        <GalleryImage src={previewUrl} alt="picture" onClick={toggleModal} />
+        <GalleryImage src={previewUrl} alt="picture" onClick={handleToggle} />
       </a>
     </GalleryItem>
   );
