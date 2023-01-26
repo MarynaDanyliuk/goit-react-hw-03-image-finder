@@ -3,8 +3,10 @@ import React from 'react';
 import { Container } from '../App/App.styled';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
-import { Button } from 'components/Button/Button';
+import { Button } from '../Button/Button';
 import { LoaderWatch } from '../Loader/Loader';
+import { Modal } from '../Modal/Modal';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 
 // import apiServise from 'apiServise/api';
 
@@ -16,23 +18,30 @@ export class App extends React.Component {
     images: [],
     query: '',
     loading: false,
+    showModal: false,
   };
 
   onHandleSubmit = ({ query }) => {
     this.setState({ query: query, loading: true });
 
-    getImagesApiService.query = this.state.query.trim();
-
     getImagesApiService.resetPage();
 
-    // if (getImagesApiService.query === '') {
-    //   return;
-    // }
+    // console.log(query);
+    if (query.trim() === '') {
+      this.setState({
+        images: [],
+      });
+      return;
+    }
 
     getImagesApiService
       .fetchImages(query)
       .then(data => {
+        // console.log(data);
         this.setState({ images: data.hits });
+      })
+      .catch(error => {
+        console.log('Error');
       })
       .finally(() => {
         this.setState({ loading: false });
@@ -48,20 +57,38 @@ export class App extends React.Component {
     console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
   };
 
+  onToggleModal = () => {
+    console.log('кликнули на фото для открытия модального окна');
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
+
   componentDidMount() {}
 
   render() {
-    const { images, loading } = this.state;
+    const { images, loading, showModal } = this.state;
+    // const { largeUrl } = this.state.images;
     return (
       <Container>
         <Searchbar onSubmit={this.onHandleSubmit} />
         {loading && <LoaderWatch />}
         {images && <ImageGallery images={images} />}
         {images.length > 0 && <Button handelClick={this.onHandelClick} />}
+        {showModal && (
+          <Modal>
+            <ImageGalleryItem
+              images={images}
+              toggleModal={this.onToggleModal}
+            />
+          </Modal>
+        )}
       </Container>
     );
   }
 }
+
+//  onClick={this.onToggleModal}
 
 // ____________2 var_____________________
 // apiServise(query)

@@ -8,20 +8,15 @@ export default class GetImagesApiService {
     this.per_page = 20;
   }
 
-  // state = {
-  //   query: ``,
-  //   page: 1,
-  //   per_page: 12,
-  // };
-
-  async fetchImages(query) {
+  fetchImages(query) {
     console.log(`До запроса наш объект`, this);
 
     this.query = query;
+
     const API_KEY = '31808257-b1d1bead71ab6681d9f118ecf';
     const BASE_URL = 'https://pixabay.com/api/';
 
-    return await fetch(
+    return fetch(
       `${BASE_URL}?q=${query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
     ).then(response => response.json());
   }
@@ -33,14 +28,6 @@ export default class GetImagesApiService {
   resetPage() {
     this.page = 1;
   }
-
-  // get query() {
-  //   return this.query;
-  // }
-
-  // set query(word) {
-  //   return this.query;
-  // }
 }
 // _____________2 var______________________________
 // function apiServise(query) {
@@ -103,4 +90,27 @@ export default class GetImagesApiService {
 //   setQuery(newWord) {
 //     this.setState({ query: newWord });
 //   }
+// }
+// _____________________________________
+
+// __________Notes______________________
+// clearContent() {
+//   this.query = '';
+//   this.page = 0;
+// }
+
+// getQuery() {
+//   return this.query;
+// }
+
+// setQuery(newQuery) {
+//   return (this.query = newQuery);
+// }
+
+// get query() {
+//   return this.query;
+// }
+
+// set query(word) {
+//   return this.query;
 // }

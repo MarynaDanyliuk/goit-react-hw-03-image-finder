@@ -14,6 +14,9 @@ export const ModalOverlay = styled.div`
 `;
 
 export const ModalView = styled.div`
+  width: 480px;
+  height: 320px;
+  background-color: white;
   max-width: calc(100vw - 48px);
   max-height: calc(100vh - 24px);
 `;
