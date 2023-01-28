@@ -17,7 +17,7 @@ export class Searchbar extends React.Component {
   };
 
   handleChange = event => {
-    const { name, value } = event.currentTarget;
+    const { name, value } = event.target;
     this.setState({
       [name]: value,
     });
@@ -25,8 +25,11 @@ export class Searchbar extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
-    this.props.onSubmit(this.state);
+    // ________________________
+    const { onSubmit } = this.props;
+    // this.props.onSubmit(this.state);
+    onSubmit({ ...this.state });
+    // _________________________
     this.reset();
   };
 
@@ -34,9 +37,9 @@ export class Searchbar extends React.Component {
     this.setState({ query: '' });
   };
 
-  handleToggle = event => {
-    this.props.onClick(this.state);
-  };
+  // handleToggle = event => {
+  //   this.props.onClick(this.state);
+  // };
 
   render() {
     return (
@@ -55,9 +58,9 @@ export class Searchbar extends React.Component {
             value={this.state.query}
             onChange={this.handleChange}
           />
-          <button type="button" onClick={this.handleToggle}>
+          {/* <button type="button" onClick={this.handleToggle}>
             Open Modal
-          </button>
+          </button> */}
         </SearchForm>
       </Header>
     );

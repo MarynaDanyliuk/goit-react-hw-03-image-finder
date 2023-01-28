@@ -1,4 +1,5 @@
 import React from 'react';
+// import axios from 'axios';
 
 import { Container } from '../App/App.styled';
 import { Searchbar } from '../Searchbar/Searchbar';
@@ -6,37 +7,163 @@ import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Button } from '../Button/Button';
 import { LoaderWatch } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
+
 // import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+
+import { searchImages } from 'apiServise/apiImages';
 
 // import apiServise from 'apiServise/api';
 
-import GetImagesApiService from 'apiServise/api';
-const getImagesApiService = new GetImagesApiService();
+// import GetImagesApiService from 'apiServise/api';
+// const getImagesApiService = new GetImagesApiService();
 
 export class App extends React.Component {
   state = {
-    images: [],
     query: '',
+    images: [],
     loading: false,
+    page: 1,
     showModal: false,
   };
 
   componentDidMount() {
     window.addEventListener('click', event => {
-      console.log(event.currentTarget);
+      if (event.target.nodeName !== `IMG`) {
+        return;
+      }
+      this.onToggleModal();
     });
-    // window.addEventListener('keydown', event => {
-    //   console.log(event.currentTarget);
-    //   if (event.code === 'Escape') {
-    //     console.log(' нажали ESC, нужно закрыть модалку', event.currentTarget);
-    //     this.onToggleModal();
-    //   }
-    // });
   }
+
+  // onHandleSubmit = ({ query }) => {
+  //   this.setState({
+  //     query: query,
+  //     // page: 1,
+  //     // images: [],
+  //     // loading: true,
+  //   });
+
+  // console.log(`до запроса наш объект`, this.state);
+
+  // getImagesApiService.resetPage();
+
+  // if (query.trim() === '') {
+  //   this.setState({
+  //     images: [],
+  //   });
+  //   return;
+  // }
+
+  // getImagesApiService
+  //   .fetchImages(query)
+  //   .then(data => {
+  //     this.setState({ images: data.hits });
+  //   })
+  //   .catch(error => {
+  //     console.log('Error');
+  //   })
+  //   .finally(() => {
+  //     this.setState({ loading: false });
+  //   });
+
+  // console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
+  // };
+
+  componentDidUpdate(prevProps, prevState) {
+    const { query, page } = this.state;
+
+    if (prevState.query !== query || prevState.page !== page) {
+      if (query.trim() === '') {
+        this.setState({
+          images: [],
+          loading: true,
+        });
+        return;
+      }
+      this.fetchImages();
+    }
+  }
+
+  async fetchImages() {
+    try {
+      this.setState({ loading: true });
+      const { query, page } = this.state;
+
+      const data = await searchImages(query, page);
+
+      // console.log(data.hits);
+
+      this.setState(({ images }) => ({ images: [...images, ...data.hits] }));
+    } catch (error) {
+      this.setState('Error');
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
+  searchImages = ({ query }) => {
+    this.setState({ query, images: [], page: 1 });
+    // console.log(`до запроса наш объект`, this.state);
+  };
+
+  // [...images, ...data.hits]
+
+  // componentDidUpdate(_, prevState) {
+  //   console.log(`до запроса наш объект`, this.state);
+
+  //   console.log('prevState.page:', prevState.page);
+  //   console.log('this.state.page:', this.state.page);
+
+  //   console.log('prevState.query:', prevState.query);
+  //   console.log('this.state.query:', this.state.query);
+
+  //   if (
+  //     prevState.page !== this.state.page ||
+  //     prevState.query !== this.state.query
+  //   ) {
+  //     this.fetchImages(this.state.query);
+
+  //     // this.resetPage();
+  //     // getImagesApiService.resetPage();
+  //   }
+  // }
+
+  // fetchImages = query => {
+  //   query = this.state.query;
+
+  //   if (query.trim() === '') {
+  //     this.setState({
+  //       images: [],
+  //     });
+  //     return;
+  //   }
+
+  //   const API_KEY = '31808257-b1d1bead71ab6681d9f118ecf';
+  //   const BASE_URL = 'https://pixabay.com/api/';
+
+  //   return fetch(
+  //     `${BASE_URL}?q=${query}&page=1&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
+  //   )
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.setState({ images: data.hits });
+  //       // console.log(`После запроса, если все ок - наш объект`, this.state);
+  //     })
+  //     .catch(error => {
+  //       console.log('Error');
+  //     })
+  //     .finally(() => {
+  //       this.setState({ loading: false });
+  //     });
+  // };
+
+  onLoadMore = () => {
+    this.setState(prevState => ({ page: prevState.page + 1 }));
+    // console.log(`После запроса, если все ок - наш объект`, this.state);
+  };
 
   componentWillUnmount() {
     window.addEventListener('keydown', event => {
-      console.log(event.currentTarget);
       if (event.code === 'Escape') {
         console.log(' нажали ESC, нужно закрыть модалку', event.currentTarget);
         this.onToggleModal();
@@ -44,48 +171,25 @@ export class App extends React.Component {
     });
   }
 
-  onHandleSubmit = ({ query }) => {
-    this.setState({ query: query, loading: true });
+  resetPage() {
+    this.setState({
+      page: 1,
+    });
+  }
 
-    getImagesApiService.resetPage();
+  // onHandelClick = () => {
+  //   console.log('кликнули на Load more');
 
-    // console.log(query);
-    if (query.trim() === '') {
-      this.setState({
-        images: [],
-      });
-      return;
-    }
+  //   getImagesApiService.incrementPage();
+  //   console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
+  // };
 
-    getImagesApiService
-      .fetchImages(query)
-      .then(data => {
-        // console.log(data);
-        this.setState({ images: data.hits });
-      })
-      .catch(error => {
-        console.log('Error');
-      })
-      .finally(() => {
-        this.setState({ loading: false });
-      });
-
-    console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
-  };
-
-  onHandelClick = () => {
-    console.log('кликнули на Load more');
-
-    getImagesApiService.incrementPage();
-    console.log(`После запроса, если все ок - наш объект`, getImagesApiService);
-  };
-
-  onToggleModal = (event, id) => {
-    console.log('кликнули Toggle модального окна');
-    this.setState(({ showModal }) => ({
-      showModal: !showModal,
-    }));
-  };
+  // onToggleModal = event => {
+  //   console.log('кликнули Toggle модального окна');
+  //   this.setState(({ showModal }) => ({
+  //     showModal: !showModal,
+  //   }));
+  // };
 
   render() {
     const { images, loading, showModal } = this.state;
@@ -93,26 +197,19 @@ export class App extends React.Component {
     return (
       <Container>
         <Searchbar
-          onSubmit={this.onHandleSubmit}
-          onClick={this.onToggleModal}
+          onSubmit={this.searchImages}
+          // onSubmit={this.onHandleSubmit}
+          // onClick={this.onToggleModal}
         />
         {loading && <LoaderWatch />}
-        {images && (
-          <ImageGallery images={images} handleToggle={this.onToggleModal} />
-        )}
-        {images.length > 0 && <Button handelClick={this.onHandelClick} />}
+        {images && <ImageGallery images={images} />}
+
+        {images.length > 0 && <Button handelClick={this.onLoadMore} />}
+
+        {/* {images.length > 0 && <Button handelClick={this.onHandelClick} />} */}
         {showModal && (
           <Modal handleToggle={this.onToggleModal}>
             <h1>Hello I'm MODALKA</h1>
-            {/* <ImageGalleryItem
-            // largeUrl={largeImageURL}
-            // previewUrl={webformatURL}
-            // key={id}
-            // onClick={handleToggle}
-            /> */}
-            <ImageGallery images={images} handleToggle={this.onToggleModal}>
-              {this.props.children}
-            </ImageGallery>
           </Modal>
         )}
       </Container>

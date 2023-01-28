@@ -4,8 +4,8 @@
 export default class GetImagesApiService {
   constructor() {
     this.query = ``;
-    this.page = 1;
-    this.per_page = 20;
+    // this.page = 1;
+    // this.per_page = 20;
   }
 
   fetchImages(query) {
