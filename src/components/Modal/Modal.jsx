@@ -14,7 +14,7 @@ class Modal extends Component {
   }
 
   componentWillUnmount() {
-    document.addEventListener('keydown', this.handleToggle);
+    document.removeEventListener('keydown', this.handleToggle);
   }
 
   handleToggle = ({ target, currentTarget, code }) => {

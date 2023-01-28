@@ -36,6 +36,11 @@ export class App extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('click', this.onToggleModal);
+    window.removeEventListener('click', this.showImage);
+  }
+
   onToggleModal = event => {
     console.log('кликнули toggle модального окна');
     this.setState(({ showModal }) => ({
