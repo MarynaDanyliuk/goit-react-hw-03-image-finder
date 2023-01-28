@@ -27,15 +27,6 @@ export class App extends React.Component {
     imageDetailse: null,
   };
 
-  componentDidMount() {
-    // window.addEventListener('click', event => {
-    //   if (event.target.nodeName !== `IMG`) {
-    //     return;
-    //   }
-    //   this.onToggleModal();
-    // });
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { query, page } = this.state;
 
@@ -85,14 +76,18 @@ export class App extends React.Component {
     // console.log(`После запроса, если все ок - наш объект`, this.state);
   };
 
-  showImage = ({ largeUrl, previewUrl }) => {
+  showImage = ({ largeImageURL, webformatURL, id }) => {
+    console.log('кликнули img');
     this.setState({
       imageDetailse: {
-        largeUrl,
-        previewUrl,
+        largeImageURL,
+        webformatURL,
+        id,
       },
       showModal: true,
     });
+
+    //  const { largeImageURL, webformatURL, id } = this.state.imageDetailse;
   };
 
   render() {
@@ -102,9 +97,7 @@ export class App extends React.Component {
       <Container>
         <Searchbar onSubmit={this.searchImages} />
         {loading && <LoaderWatch />}
-        {images && (
-          <ImageGallery images={images} showImage={() => this.showImage()} />
-        )}
+        {images && <ImageGallery images={images} showImage={this.showImage} />}
         {Boolean(images.length) && <Button handelClick={this.onLoadMore} />}
 
         {showModal && (

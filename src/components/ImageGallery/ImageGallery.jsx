@@ -8,10 +8,10 @@ export const ImageGallery = ({ images, showImage }) => {
     <Gallery>
       {images.map(({ largeImageURL, webformatURL, id }) => (
         <ImageGalleryItem
-          largeUrl={largeImageURL}
-          previewUrl={webformatURL}
+          largeImageURL={largeImageURL}
+          webformatURL={webformatURL}
           key={id}
-          showImage={() => showImage({ largeImageURL, webformatURL })}
+          showImage={() => showImage({ largeImageURL, webformatURL, id })}
         />
       ))}
     </Gallery>
