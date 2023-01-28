@@ -8,7 +8,7 @@ import { Button } from '../Button/Button';
 import { LoaderWatch } from '../Loader/Loader';
 import Modal from '../Modal/Modal';
 
-// import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
+import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 
 import { searchImages } from 'apiServise/apiImages';
 
@@ -23,16 +23,17 @@ export class App extends React.Component {
     images: [],
     loading: false,
     page: 1,
-    showModal: true,
+    showModal: false,
+    imageDetailse: null,
   };
 
   componentDidMount() {
-    window.addEventListener('click', event => {
-      if (event.target.nodeName !== `IMG`) {
-        return;
-      }
-      this.onToggleModal();
-    });
+    // window.addEventListener('click', event => {
+    //   if (event.target.nodeName !== `IMG`) {
+    //     return;
+    //   }
+    //   this.onToggleModal();
+    // });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -50,17 +51,8 @@ export class App extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    // window.addEventListener('keydown', event => {
-    //   if (event.code === 'Escape') {
-    //     console.log(' нажали ESC, нужно закрыть модалку', event.currentTarget);
-    //     this.onToggleModal();
-    //   }
-    // });
-  }
-
   onToggleModal = event => {
-    console.log('кликнули overlay модального окна');
+    console.log('кликнули toggle модального окна');
     this.setState(({ showModal }) => ({
       showModal: !showModal,
     }));
@@ -93,6 +85,16 @@ export class App extends React.Component {
     // console.log(`После запроса, если все ок - наш объект`, this.state);
   };
 
+  showImage = ({ largeUrl, previewUrl }) => {
+    this.setState({
+      imageDetailse: {
+        largeUrl,
+        previewUrl,
+      },
+      showModal: true,
+    });
+  };
+
   render() {
     const { images, loading, showModal } = this.state;
 
@@ -100,12 +102,17 @@ export class App extends React.Component {
       <Container>
         <Searchbar onSubmit={this.searchImages} />
         {loading && <LoaderWatch />}
-        {images && <ImageGallery images={images} />}
-        {images.length > 0 && <Button handelClick={this.onLoadMore} />}
+        {images && (
+          <ImageGallery images={images} showImage={() => this.showImage()} />
+        )}
+        {Boolean(images.length) && <Button handelClick={this.onLoadMore} />}
 
         {showModal && (
           <Modal handleToggle={() => this.onToggleModal()}>
-            <h1>Hello I'm MODALKA</h1>
+            <ImageGalleryItem
+              showImage={() => this.showImage()}
+              imageDetailse={this.state.imageDetailse}
+            />
           </Modal>
         )}
       </Container>

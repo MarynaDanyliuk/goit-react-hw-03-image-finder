@@ -3,15 +3,15 @@ import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 // import PropTypes from 'prop-types';
 import { Gallery } from '../ImageGallery/ImageGallery.styled';
 
-export const ImageGallery = ({ images, handleToggle }) => {
+export const ImageGallery = ({ images, showImage }) => {
   return (
     <Gallery>
-      {images.map(image => (
+      {images.map(({ largeImageURL, webformatURL, id }) => (
         <ImageGalleryItem
-          largeUrl={image.largeImageURL}
-          previewUrl={image.webformatURL}
-          key={image.id}
-          onClick={() => handleToggle(image.id)}
+          largeUrl={largeImageURL}
+          previewUrl={webformatURL}
+          key={id}
+          showImage={() => showImage({ largeImageURL, webformatURL })}
         />
       ))}
     </Gallery>
