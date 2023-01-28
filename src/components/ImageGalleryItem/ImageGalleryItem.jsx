@@ -1,5 +1,4 @@
-// import css from './ImageGalleryItem.module.css';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import {
   GalleryItem,
@@ -17,20 +16,13 @@ export const ImageGalleryItem = ({
       key={id}
       onClick={() => showImage({ largeImageURL, webformatURL, id })}
     >
-      {/* <a href={largeUrl}> */}
       <GalleryImage src={largeImageURL} srcSet={webformatURL} alt="picture" />
-      {/* </a> */}
     </GalleryItem>
   );
 };
 
-// ImageGalleryItem.propTypes = {
-//   friends: PropTypes.arrayOf(
-//     PropTypes.exact({
-//       avatar: PropTypes.string.isRequired,
-//       name: PropTypes.string.isRequired,
-//       isOnline: PropTypes.bool.isRequired,
-//       id: PropTypes.number.isRequired,
-//     })
-//   ),
-// };
+ImageGalleryItem.propTypes = {
+  largeImageURL: PropTypes.node,
+  webformatURL: PropTypes.node,
+  showImage: PropTypes.func.isRequired,
+};

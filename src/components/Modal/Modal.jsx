@@ -2,7 +2,7 @@ import { Component } from 'react';
 
 import { createPortal } from 'react-dom';
 
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 import { ModalOverlay, ModalView } from '../Modal/Modal.styled';
 
@@ -37,11 +37,6 @@ class Modal extends Component {
 
 export default Modal;
 
-// export const Modal = ({ children, handleToggle }) => {
-// return createPortal(
-//   <ModalOverlay onClick={handleToggle}>
-//     <ModalView>{children}</ModalView>
-//   </ModalOverlay>,
-//   modalRoot
-// );
-// };
+Modal.propTypes = {
+  handleToggle: PropTypes.func.isRequired,
+};
