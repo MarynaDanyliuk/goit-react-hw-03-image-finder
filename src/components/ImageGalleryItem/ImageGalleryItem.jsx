@@ -18,7 +18,7 @@ export const ImageGalleryItem = ({
       onClick={() => showImage({ largeImageURL, webformatURL, id })}
     >
       {/* <a href={largeUrl}> */}
-      <GalleryImage src={webformatURL} alt="picture" />
+      <GalleryImage src={largeImageURL} srcSet={webformatURL} alt="picture" />
       {/* </a> */}
     </GalleryItem>
   );
