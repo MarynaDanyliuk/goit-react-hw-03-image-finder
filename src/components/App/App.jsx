@@ -24,7 +24,7 @@ export class App extends React.Component {
     loading: false,
     page: 1,
     showModal: false,
-    imageDetailse: null,
+    imageDetails: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -78,21 +78,23 @@ export class App extends React.Component {
 
   showImage = ({ largeImageURL, webformatURL, id }) => {
     console.log('кликнули img');
+
+    // const { largeImageURL, webformatURL, id } = data;
+
     this.setState({
-      imageDetailse: {
+      imageDetails: {
         largeImageURL,
         webformatURL,
         id,
       },
       showModal: true,
     });
-
+    console.log(this.state);
     //  const { largeImageURL, webformatURL, id } = this.state.imageDetailse;
   };
 
   render() {
     const { images, loading, showModal } = this.state;
-
     return (
       <Container>
         <Searchbar onSubmit={this.searchImages} />
@@ -104,7 +106,7 @@ export class App extends React.Component {
           <Modal handleToggle={() => this.onToggleModal()}>
             <ImageGalleryItem
               showImage={() => this.showImage()}
-              imageDetailse={this.state.imageDetailse}
+              {...this.state.imageDetails}
             />
           </Modal>
         )}
@@ -112,6 +114,8 @@ export class App extends React.Component {
     );
   }
 }
+
+//  imageDetails={this.state.imageDetails}
 //  ___________________________________________
 // onHandleSubmit = ({ query }) => {
 //   this.setState({
