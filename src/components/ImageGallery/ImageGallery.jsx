@@ -20,6 +20,12 @@ export const ImageGallery = ({ images, showImage }) => {
 };
 
 ImageGallery.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.shape),
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      largeImageURL: PropTypes.node,
+      webformatURL: PropTypes.node,
+      id: PropTypes.number,
+    })
+  ),
   showImage: PropTypes.func.isRequired,
 };

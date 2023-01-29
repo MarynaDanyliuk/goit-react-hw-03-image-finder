@@ -29,7 +29,7 @@ export class Searchbar extends React.Component {
     // this.props.onSubmit(this.state);
     onSubmit({ ...this.state });
     // _________________________
-    this.reset();
+    // this.reset();
   };
 
   reset = () => {

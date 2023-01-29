@@ -19,6 +19,7 @@ export class App extends React.Component {
     page: 1,
     showModal: false,
     imageDetails: null,
+    total: 0,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -54,8 +55,8 @@ export class App extends React.Component {
       const { query, page } = this.state;
 
       const data = await searchImages(query, page);
-
-      // console.log(data.hits);
+      this.setState({ total: data.totalHits });
+      // console.log(data);
 
       this.setState(({ images }) => ({ images: [...images, ...data.hits] }));
     } catch (error) {
@@ -66,6 +67,10 @@ export class App extends React.Component {
   }
 
   searchImages = ({ query }) => {
+    if (query === this.state.query) {
+      return;
+    }
+
     this.setState({ query, images: [], page: 1 });
     // console.log(`до запроса наш объект`, this.state);
   };
@@ -89,13 +94,15 @@ export class App extends React.Component {
   };
 
   render() {
-    const { images, loading, showModal } = this.state;
+    const { images, loading, showModal, total } = this.state;
     return (
       <Container>
         <Searchbar onSubmit={this.searchImages} />
         {loading && <LoaderWatch />}
         {images && <ImageGallery images={images} showImage={this.showImage} />}
-        {Boolean(images.length) && <Button handelClick={this.onLoadMore} />}
+        {Boolean(images.length) && images.length < total && (
+          <Button handelClick={this.onLoadMore} />
+        )}
 
         {showModal && (
           <Modal handleToggle={() => this.onToggleModal()}>

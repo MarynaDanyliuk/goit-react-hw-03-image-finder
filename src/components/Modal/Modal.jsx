@@ -39,4 +39,5 @@ export default Modal;
 
 Modal.propTypes = {
   handleToggle: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };
